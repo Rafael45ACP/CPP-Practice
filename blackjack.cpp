@@ -1,11 +1,14 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 
 using namespace std;
 
 int getStart();
 int getBet(int x);
+// void gameStart();
+int randCard();
 
 int main()
 {
@@ -14,40 +17,64 @@ int main()
 
     int random = rand() % 11 + 1;
 
-    int userc;
-    int compc;
+    vector<int> userc;
+    vector<int> compc;
 
     int startM = 0;
 
     int bet = 0;
 
     startM = getStart();
-    bet = getBet(startM);
-    
+    // bool game = true;
 
-    userc = random + random;
+    while (startM != 0)
+    {
 
-    cout << userc;
+        if (bet == 0)
+        {
+            bet = getBet(startM);
+        }
 
+        compc.push_back(randCard());
+        userc.push_back(randCard());
+        compc.push_back(randCard());
+        userc.push_back(randCard());
 
+        // cout << compc.at(0);
+        // cout << compc.at(1);
+
+        break;
+    }
 
     return 0;
 }
 
-int getStart(){
+int getStart()
+{
     int x;
-    do {
+    do
+    {
         cout << "What is your starting money?\n";
         cin >> x;
-    } while(x <= 0);
+    } while (x <= 0);
     return x;
 }
 
-int getBet(int x){
+int getBet(int x)
+{
     int y;
-    do {
+    do
+    {
         cout << "How much do you want to bet?\n";
         cin >> y;
-    } while(y <= 0 || y > x);
+    } while (y <= 0 || y > x);
     return y;
+}
+
+int randCard()
+{
+
+    int random = rand() % 10 + 1;
+
+    return random;
 }
