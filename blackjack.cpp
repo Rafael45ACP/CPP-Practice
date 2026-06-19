@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <cctype>
 
 using namespace std;
 
@@ -9,6 +10,9 @@ int getStart();
 int getBet(int x);
 // void gameStart();
 int randCard();
+string toLow(string txt);
+
+int getTotal(const vector<int>& num);
 
 int main()
 {
@@ -25,7 +29,6 @@ int main()
     int bet = 0;
 
     startM = getStart();
-    // bool game = true;
 
     while (startM != 0)
     {
@@ -36,12 +39,48 @@ int main()
         }
 
         compc.push_back(randCard());
+        cout << "Dealer has " << compc.at(0) << endl;
         userc.push_back(randCard());
+        cout << "Player has " << userc.at(0) << endl;
         compc.push_back(randCard());
+        cout << "Dealer has ??" << endl;
         userc.push_back(randCard());
+        cout << "Player has " << userc.at(1) << endl;
 
-        // cout << compc.at(0);
-        // cout << compc.at(1);
+
+        cout << "\nDealer has " << compc.at(0) << ", ?? "<< endl;
+        cout << "Player has " << userc.at(0) << ", " << userc.at(1) << endl;
+
+        int uTotal = 0;
+        int pcTotal = 0;
+
+        uTotal = getTotal(userc);
+        cout << "\nPlayer has a total of " << uTotal << endl;
+
+        pcTotal = getTotal(compc);
+
+        string choice;
+
+        cout << "\nHit or Stand?\n";
+        cin >> choice;
+
+        choice = toLow(choice);
+
+        if(choice == "h" || choice == "hit"){
+            userc.push_back(randCard());
+            cout << userc.at(2);
+        }
+        else if(choice == "s" || choice == "stand"){
+            if(uTotal > pcTotal){
+                cout << "You win!";
+            }
+            else if(pcTotal > uTotal){
+                cout << "You lose!";
+            }
+            else{
+                cout << "It's a draw!";
+            }
+        }
 
         break;
     }
@@ -77,4 +116,20 @@ int randCard()
     int random = rand() % 10 + 1;
 
     return random;
+}
+
+string toLow(string txt){
+    for(char &c : txt){
+        c = tolower(c);
+    }
+
+    return txt;
+}
+
+int getTotal(const vector<int>& num){
+    int sum = 0;
+    for( int t : num){
+        sum += t; 
+    }
+    return sum;
 }
