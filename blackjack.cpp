@@ -8,9 +8,9 @@ using namespace std;
 
 int getStart();
 int getBet(int x);
-// void gameStart();
 int randCard();
 string toLow(string txt);
+string getHit();
 
 int getTotal(const vector<int>& num);
 
@@ -61,21 +61,31 @@ int main()
 
         string choice;
 
-        cout << "\nHit or Stand?\n";
-        cin >> choice;
+        choice = getHit();
 
-        choice = toLow(choice);
-
-        if(choice == "h" || choice == "hit"){
+        while(choice == "h" || choice == "hit"){
+            
             userc.push_back(randCard());
-            cout << userc.at(2);
+            cout << "Player gets: " << userc.back() << endl;
+            
+            uTotal = getTotal(userc);
+            cout << "\nPlayer has a total of " << uTotal << endl;
+            if(uTotal > 21){
+                cout << "Bust! You lose! \n";
+                break;
+            }
+
+            choice = getHit();
         }
-        else if(choice == "s" || choice == "stand"){
+
+        if(choice == "s" || choice == "stand"){
             if(uTotal > pcTotal){
                 cout << "You win!";
+                startM + (bet * 2);
             }
             else if(pcTotal > uTotal){
                 cout << "You lose!";
+                startM - bet;
             }
             else{
                 cout << "It's a draw!";
@@ -116,6 +126,18 @@ int randCard()
     int random = rand() % 10 + 1;
 
     return random;
+}
+
+string getHit(){
+    string c;
+
+        cout << "\nHit or Stand?\n";
+        cin >> c;
+
+        c = toLow(c);
+
+        return c;
+
 }
 
 string toLow(string txt){
