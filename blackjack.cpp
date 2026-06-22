@@ -30,8 +30,11 @@ int main()
 
     startM = getStart();
 
-    while (startM != 0)
+    cout << "Current Balance: " << startM << endl;
+
+    do
     {
+        
 
         if (bet == 0)
         {
@@ -70,8 +73,10 @@ int main()
             
             uTotal = getTotal(userc);
             cout << "\nPlayer has a total of " << uTotal << endl;
+
             if(uTotal > 21){
                 cout << "Bust! You lose! \n";
+                startM -= bet;
                 break;
             }
 
@@ -79,22 +84,47 @@ int main()
         }
 
         if(choice == "s" || choice == "stand"){
+
+            cout << "\nDealer has " << compc.at(0) << ", "<< compc.at(1) << endl;
+
+           
+            while (uTotal > pcTotal && pcTotal <= 16){
+
+                compc.push_back(randCard());
+                cout << "Dealer gets "<<compc.back() << endl;
+
+                pcTotal = getTotal(compc);
+
+                cout <<"Dealer has a total of "<< pcTotal << endl;
+
+                if(pcTotal > 21){
+                    cout << "Bust! Player Wins! \n";
+                    startM += bet;
+                }
+            }
+
             if(uTotal > pcTotal){
-                cout << "You win!";
-                startM + (bet * 2);
+                cout << "You win!\n";
+                startM += bet;
             }
             else if(pcTotal > uTotal){
-                cout << "You lose!";
-                startM - bet;
+                cout << "You lose!\n";
+                startM -= bet;
             }
             else{
-                cout << "It's a draw!";
+                cout << "It's a draw!\n";
             }
         }
+        userc.clear();
+        compc.clear();
 
-        break;
-    }
+        bet = 0;
 
+        cout << "Current Balance: " << startM << endl;
+
+    }while (startM != 0);
+
+    cout << "Game Over! \n"; 
     return 0;
 }
 
