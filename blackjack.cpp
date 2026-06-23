@@ -3,6 +3,8 @@
 #include <ctime>
 #include <vector>
 #include <cctype>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -27,6 +29,9 @@ int main()
     int startM = 0;
 
     int bet = 0;
+
+    char uStatus;
+    char pcStatus;
 
     startM = getStart();
 
@@ -69,50 +74,75 @@ int main()
         while(choice == "h" || choice == "hit"){
             
             userc.push_back(randCard());
-            cout << "Player gets: " << userc.back() << endl;
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "\nPlayer gets: " << userc.back() << endl;
             
             uTotal = getTotal(userc);
             cout << "\nPlayer has a total of " << uTotal << endl;
 
             if(uTotal > 21){
-                cout << "Bust! You lose! \n";
-                startM -= bet;
+                cout << "\nBust! You lose! \n";
+                uStatus = 'b';
+                choice = "s";
                 break;
             }
-
+            if (uTotal == 21){
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "\nBlackjack!\n";
+                choice = "s";
+                break;
+                
+            }
             choice = getHit();
         }
 
         if(choice == "s" || choice == "stand"){
+        
+            this_thread::sleep_for(chrono::seconds(1));
 
             cout << "\nDealer has " << compc.at(0) << ", "<< compc.at(1) << endl;
+            cout << "\nDealer has a total of " << pcTotal<< endl;
 
            
-            while (uTotal > pcTotal && pcTotal <= 16){
+            while (pcTotal <= 16 && uStatus != 'b'){
 
                 compc.push_back(randCard());
-                cout << "Dealer gets "<<compc.back() << endl;
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "\nDealer gets "<<compc.back() << endl;
 
                 pcTotal = getTotal(compc);
 
-                cout <<"Dealer has a total of "<< pcTotal << endl;
+                cout <<"\nDealer has a total of "<< pcTotal << endl;
 
                 if(pcTotal > 21){
-                    cout << "Bust! Player Wins! \n";
-                    startM += bet;
+                    cout << "\nBust! Player Wins! \n";
+                    pcStatus = 'b';
+                    break;
+                }
+                if (pcTotal == 21){
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "\nDealer gets Blackjack!\n";
+                break;
+                
                 }
             }
-
-            if(uTotal > pcTotal){
-                cout << "You win!\n";
+            this_thread::sleep_for(chrono::seconds(1));
+            if(uStatus == 'b'){
+                cout << "\nYou lose!\n";
+                startM -= bet;
+            }
+            else if (uStatus == 'b'){
+                startM += bet;
+            }
+            else if(uTotal > pcTotal){
                 startM += bet;
             }
             else if(pcTotal > uTotal){
-                cout << "You lose!\n";
+                cout << "\nYou lose!\n";
                 startM -= bet;
             }
             else{
-                cout << "It's a draw!\n";
+                cout << "\nIt's a draw!\n";
             }
         }
         userc.clear();
@@ -120,7 +150,7 @@ int main()
 
         bet = 0;
 
-        cout << "Current Balance: " << startM << endl;
+        cout << "\nCurrent Balance: " << startM << endl;
 
     }while (startM != 0);
 
@@ -144,7 +174,7 @@ int getBet(int x)
     int y;
     do
     {
-        cout << "How much do you want to bet?\n";
+        cout << "\nHow much do you want to bet?\n";
         cin >> y;
     } while (y <= 0 || y > x);
     return y;
