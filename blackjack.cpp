@@ -13,6 +13,7 @@ int getBet(int x);
 int randCard();
 string toLow(string txt);
 string getHit();
+bool playAgain();
 
 int getTotal(const vector<int>& num);
 
@@ -32,6 +33,11 @@ int main()
 
     char uStatus;
     char pcStatus;
+
+    bool play = true;
+
+    while(play == true)
+    {
 
     startM = getStart();
 
@@ -131,7 +137,7 @@ int main()
                 cout << "\nYou lose!\n";
                 startM -= bet;
             }
-            else if (uStatus == 'b'){
+            else if (pcStatus == 'b'){
                 startM += bet;
             }
             else if(uTotal > pcTotal){
@@ -155,6 +161,11 @@ int main()
     }while (startM != 0);
 
     cout << "Game Over! \n"; 
+    play = playAgain();
+    
+    }
+
+
     return 0;
 }
 
@@ -214,4 +225,16 @@ int getTotal(const vector<int>& num){
         sum += t; 
     }
     return sum;
+}
+
+bool playAgain(){
+    char choice;
+
+    cout << "\nDo you want to play again? (y/n)\n";
+    cin >> choice;
+
+    if(choice == 'y'){
+        return true;
+    }
+    else return false;
 }
