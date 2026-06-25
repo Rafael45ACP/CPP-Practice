@@ -38,10 +38,11 @@ int main()
 
     while(play == true)
     {
-
+    this_thread::sleep_for(chrono::milliseconds(600));
     startM = getStart();
 
-    cout << "Current Balance: " << startM << endl;
+    this_thread::sleep_for(chrono::milliseconds(600));
+    cout << "\nCurrent Balance: " << startM << endl;
 
     do
     {
@@ -53,22 +54,32 @@ int main()
         }
 
         compc.push_back(randCard());
-        cout << "Dealer has " << compc.at(0) << endl;
+        this_thread::sleep_for(chrono::milliseconds(500));
+        cout << "\nDealer gets " << compc.at(0) << endl;
         userc.push_back(randCard());
-        cout << "Player has " << userc.at(0) << endl;
+
+        this_thread::sleep_for(chrono::milliseconds(500));
+        cout << "\nPlayer gets " << userc.at(0) << endl;
         compc.push_back(randCard());
-        cout << "Dealer has ??" << endl;
+
+        this_thread::sleep_for(chrono::milliseconds(500));
+        cout << "\nDealer gets ??" << endl;
         userc.push_back(randCard());
-        cout << "Player has " << userc.at(1) << endl;
 
+        this_thread::sleep_for(chrono::milliseconds(500));
+        cout << "\nPlayer gets " << userc.at(1) << endl;
 
+        this_thread::sleep_for(chrono::milliseconds(600));
         cout << "\nDealer has " << compc.at(0) << ", ?? "<< endl;
+
+        this_thread::sleep_for(chrono::milliseconds(600));
         cout << "Player has " << userc.at(0) << ", " << userc.at(1) << endl;
 
         int uTotal = 0;
         int pcTotal = 0;
 
         uTotal = getTotal(userc);
+        this_thread::sleep_for(chrono::milliseconds(500));
         cout << "\nPlayer has a total of " << uTotal << endl;
 
         pcTotal = getTotal(compc);
@@ -80,20 +91,22 @@ int main()
         while(choice == "h" || choice == "hit"){
             
             userc.push_back(randCard());
-            this_thread::sleep_for(chrono::seconds(1));
-            cout << "\nPlayer gets: " << userc.back() << endl;
+            this_thread::sleep_for(chrono::milliseconds(600));
+            cout << "\nPlayer gets " << userc.back() << endl;
             
             uTotal = getTotal(userc);
+            this_thread::sleep_for(chrono::milliseconds(600));
             cout << "\nPlayer has a total of " << uTotal << endl;
 
             if(uTotal > 21){
+                this_thread::sleep_for(chrono::milliseconds(800));
                 cout << "\nBust! You lose! \n";
                 uStatus = 'b';
                 choice = "s";
                 break;
             }
             if (uTotal == 21){
-                this_thread::sleep_for(chrono::seconds(1));
+                this_thread::sleep_for(chrono::milliseconds(800));
                 cout << "\nBlackjack!\n";
                 choice = "s";
                 break;
@@ -104,50 +117,56 @@ int main()
 
         if(choice == "s" || choice == "stand"){
         
-            this_thread::sleep_for(chrono::seconds(1));
+            this_thread::sleep_for(chrono::milliseconds(400));
 
             cout << "\nDealer has " << compc.at(0) << ", "<< compc.at(1) << endl;
+            this_thread::sleep_for(chrono::milliseconds(400));
             cout << "\nDealer has a total of " << pcTotal<< endl;
 
            
             while (pcTotal <= 16 && uStatus != 'b'){
 
                 compc.push_back(randCard());
-                this_thread::sleep_for(chrono::seconds(1));
+                this_thread::sleep_for(chrono::milliseconds(600));
                 cout << "\nDealer gets "<<compc.back() << endl;
 
                 pcTotal = getTotal(compc);
 
+                this_thread::sleep_for(chrono::milliseconds(600));
                 cout <<"\nDealer has a total of "<< pcTotal << endl;
 
                 if(pcTotal > 21){
+                    this_thread::sleep_for(chrono::milliseconds(800));
                     cout << "\nBust! Player Wins! \n";
                     pcStatus = 'b';
                     break;
                 }
                 if (pcTotal == 21){
-                this_thread::sleep_for(chrono::seconds(1));
-                cout << "\nDealer gets Blackjack!\n";
-                break;
-                
+                    this_thread::sleep_for(chrono::milliseconds(800));
+                    cout << "\nDealer gets Blackjack!\n";
+                    break;
                 }
             }
-            this_thread::sleep_for(chrono::seconds(1));
+            this_thread::sleep_for(chrono::milliseconds(400));
             if(uStatus == 'b'){
-                cout << "\nYou lose!\n";
+                //cout << "\nYou lose!\n";
                 startM -= bet;
             }
             else if (pcStatus == 'b'){
                 startM += bet;
             }
             else if(uTotal > pcTotal){
+                this_thread::sleep_for(chrono::milliseconds(600));
+                cout << "\nYou Win!\n";
                 startM += bet;
             }
             else if(pcTotal > uTotal){
+                this_thread::sleep_for(chrono::milliseconds(600));
                 cout << "\nYou lose!\n";
                 startM -= bet;
             }
             else{
+                this_thread::sleep_for(chrono::milliseconds(600));
                 cout << "\nIt's a draw!\n";
             }
         }
@@ -201,7 +220,7 @@ int randCard()
 
 string getHit(){
     string c;
-
+        this_thread::sleep_for(chrono::milliseconds(700));
         cout << "\nHit or Stand?\n";
         cin >> c;
 
