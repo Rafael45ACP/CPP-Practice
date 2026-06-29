@@ -14,6 +14,7 @@ int randCard();
 string toLow(string txt);
 string getHit(int total);
 bool playAgain();
+bool canSplit(int x, int y);
 
 int getTotal(const vector<int> &num);
 
@@ -30,6 +31,10 @@ int main()
     int startM = 0;
 
     int bet = 0;
+
+    int uCard1 = 0;
+    int uCard2 = 0;
+    bool split = false;
 
     char uStatus = 'n';
     char pcStatus = 'n';
@@ -55,16 +60,16 @@ int main()
             compc.push_back(randCard());
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "\nDealer gets " << compc.at(0) << endl;
+            
             userc.push_back(randCard());
-
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "\nPlayer gets " << userc.at(0) << endl;
+            
             compc.push_back(randCard());
-
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "\nDealer gets ??" << endl;
+            
             userc.push_back(randCard());
-
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "\nPlayer gets " << userc.at(1) << endl;
 
@@ -76,6 +81,17 @@ int main()
 
             int uTotal = 0;
             int pcTotal = 0;
+
+            uCard1 = userc.at(0);
+            uCard2 = userc.at(1);
+
+            split = canSplit(uCard1, uCard2);
+
+            if(split == true){
+                cout << "Splitable!\n";
+            }
+
+            
 
             uTotal = getTotal(userc);
             this_thread::sleep_for(chrono::milliseconds(500));
@@ -311,4 +327,10 @@ bool playAgain()
         cout << "\nI'm counting that as a no.\n";
         return false;
     }
+}
+bool canSplit(int x, int y){
+    if(x == y){
+        return true;
+    }
+    else return false;
 }
