@@ -15,8 +15,8 @@ string toLow(string txt);
 string getHit(int total);
 bool playAgain();
 bool canSplit(int x, int y);
-
 int getTotal(const vector<int> &num);
+string getSplit();
 
 int main()
 {
@@ -27,6 +27,8 @@ int main()
 
     vector<int> userc;
     vector<int> compc;
+
+    vector<int> usercSplit;
 
     int startM = 0;
 
@@ -87,8 +89,15 @@ int main()
 
             split = canSplit(uCard1, uCard2);
 
+            string sChoice = "n";
+
             if(split == true){
-                cout << "Splitable!\n";
+                sChoice = getSplit();  
+            }
+
+            if(sChoice == "y" || sChoice == "yes"){
+                usercSplit.push_back(userc.back());
+                userc.pop_back();
             }
 
             
@@ -263,7 +272,6 @@ string getHit(int total)
 {
     string c;
 
-
     this_thread::sleep_for(chrono::milliseconds(700));
 
     while (true)
@@ -328,9 +336,37 @@ bool playAgain()
         return false;
     }
 }
+
 bool canSplit(int x, int y){
     if(x == y){
         return true;
     }
     else return false;
+}
+
+string getSplit(){
+    string sc;
+
+     this_thread::sleep_for(chrono::milliseconds(700));
+
+    while (true)
+    {
+        cout << "\nSplitable!\n";
+        cout << "Do you want to split the cards?\n";
+        cin >> sc;
+
+        sc = toLow(sc);
+
+        if(sc == "y" || sc == "yes" || sc == "n" || sc == "no"){
+            break;
+        }
+        else 
+        {
+            this_thread::sleep_for(chrono::milliseconds(500));
+            cout << "\nInvalid choice! (Y/N)\n";
+        }
+
+    }
+    return sc;
+
 }
